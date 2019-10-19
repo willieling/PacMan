@@ -28,9 +28,7 @@ void ACharacterSpawner::Tick(float DeltaTime)
 
 void ACharacterSpawner::SpawnCharacter()
 {
-	const AActor* owner = GetOwner();
-
-	FVector position = owner->GetActorLocation();
+	FVector position = GetActorLocation();
 	FRotator* rotation = new FRotator();
 
 	FActorSpawnParameters spawnParameters;
@@ -38,7 +36,8 @@ void ACharacterSpawner::SpawnCharacter()
 	spawnParameters.Name = TEXT("Pacman");
 
 	UWorld* world = GetWorld();
-	world->SpawnActor(actorToSpawn, &position, rotation, spawnParameters);
+	AActor* actor = world->SpawnActor(actorToSpawn, &position, rotation, spawnParameters);
+	actor->SetActorLabel(TEXT("pac boi"));
 
 	UE_LOG(LogTemp, Display, TEXT("Spawning character"));
 }
