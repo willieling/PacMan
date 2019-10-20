@@ -4,24 +4,19 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-
-#include <PacMan\PacManController.h>
-
-#include "CharacterSpawner.generated.h"
+#include "GhostController.generated.h"
 
 UCLASS()
-class PACMAN_API ACharacterSpawner : public AActor
+class PACMAN_API AGhostController : public AActor
 {
 	GENERATED_BODY()
 	
 public:	
 	// Sets default values for this actor's properties
-	ACharacterSpawner();
-
-	void SpawnCharacter();
+	AGhostController();
 
 	UPROPERTY(EditAnywhere)
-		TSubclassOf<AActor> actorToSpawn;
+		float speed;
 
 protected:
 	// Called when the game starts or when spawned
