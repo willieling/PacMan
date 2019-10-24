@@ -22,6 +22,5 @@ void AGhostController::BeginPlay()
 void AGhostController::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
 }
 

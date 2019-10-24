@@ -2,6 +2,8 @@
 
 
 #include "PacManController.h"
+#include "Components/InputComponent.h"
+#include "Components/CapsuleComponent.h"
 
 // Sets default values
 APacManController::APacManController()
@@ -15,7 +17,10 @@ APacManController::APacManController()
 void APacManController::BeginPlay()
 {
 	Super::BeginPlay();
-	
+	UCapsuleComponent* capsuleCollider = GetCapsuleComponent();
+	capsuleCollider->OnComponentBeginOverlap.AddDynamic(this, &APacManController::Overlap);
+
+	UE_LOG(LogTemp, Display, TEXT("[PacmanController] Pacman started"));
 }
 
 // Called every frame
@@ -30,5 +35,42 @@ void APacManController::SetupPlayerInputComponent(UInputComponent* PlayerInputCo
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
+	PlayerInputComponent->BindAxis("MoveForward", this, &APacManController::VerticalInput);
+	PlayerInputComponent->BindAxis("MoveRight", this, &APacManController::HorizonalInput);
+
+	//todo add "Press R to reset"
+
+	UE_LOG(LogTemp, Display, TEXT("[PacManController] Input registered"));
+}
+
+void APacManController::HorizonalInput(float axisValue)
+{
+	if (axisValue != 0 && Controller != nullptr)
+	{
+		FRotator const ControlSpaceRot = Controller->GetControlRotation();
+
+		AddMovementInput(FRotationMatrix(ControlSpaceRot).GetScaledAxis(EAxis::X), axisValue * Speed);
+	}
+}
+
+void APacManController::VerticalInput(float axisValue)
+{
+	if (axisValue != 0 && Controller != nullptr)
+	{
+		FRotator const ControlSpaceRot = Controller->GetControlRotation();
+
+		AddMovementInput(FRotationMatrix(ControlSpaceRot).GetScaledAxis(EAxis::Y), axisValue * -Speed);
+	}
+}
+
+void APacManController::Overlap(UPrimitiveComponent* OverlappedComponent,
+	AActor* OtherActor,
+	UPrimitiveComponent* OtherComp,
+	int32 OtherBodyIndex,
+	bool bFromSweep,
+	const FHitResult& SweepResult)
+{
+	FString label = OtherActor->GetActorLabel();
+	UE_LOG(LogTemp, Display, TEXT("[PacmanController] Hit %s"), *label);
 }
 

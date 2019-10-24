@@ -22,6 +22,8 @@ public:
 
 	UPROPERTY(EditAnywhere)
 		TSubclassOf<AActor> actorToSpawn;
+	UPROPERTY(EditAnywhere)
+		FString name;
 
 protected:
 	// Called when the game starts or when spawned

@@ -33,11 +33,10 @@ void ACharacterSpawner::SpawnCharacter()
 
 	FActorSpawnParameters spawnParameters;
 	spawnParameters.bAllowDuringConstructionScript = true;
-	spawnParameters.Name = TEXT("Pacman");
 
 	UWorld* world = GetWorld();
 	AActor* actor = world->SpawnActor(actorToSpawn, &position, rotation, spawnParameters);
-	actor->SetActorLabel(TEXT("pac boi"));
+	actor->SetActorLabel(name);
 
-	UE_LOG(LogTemp, Display, TEXT("Spawning character"));
+	UE_LOG(LogTemp, Display, TEXT("Spawning character: %s"), *name);
 }
